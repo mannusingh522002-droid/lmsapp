@@ -9,8 +9,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "install": "npm install --legacy-peer-deps"
+    "lint": "next lint"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
