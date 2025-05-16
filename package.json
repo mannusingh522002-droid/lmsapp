@@ -10,7 +10,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "install": "yarn install --check-files"
+    "install": "npm install --legacy-peer-deps"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
