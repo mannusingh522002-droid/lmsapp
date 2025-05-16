@@ -45,8 +45,18 @@ export default function LoginForm({
         } else {
             // Redirect based on user role – fetch user data or JWT
             type UserRole = "ADMIN" | "INSTRUCTOR" | "STUDENT"
-            const role: UserRole = "STUDENT" // Replace with actual user role
+            const roles: UserRole[] = ["ADMIN", "INSTRUCTOR", "STUDENT"]
+
+            const getRandomRole = (): UserRole => {
+                const randomIndex = Math.floor(Math.random() * roles.length)
+                return roles[randomIndex]
+            }
+
+            const role: UserRole = getRandomRole()// Replace with actual user role
             switch (role) {
+                case "STUDENT":
+                    router.push("/dashboard/student")
+                    break
                 case "ADMIN":
                     router.push("/dashboard/admin")
                     break
