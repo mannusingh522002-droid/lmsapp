@@ -1,7 +1,10 @@
+
 import { AppSidebar } from "@/components/layout/app-sidebar"
+import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { BookOpen, FileText, HelpCircle, LayoutDashboard, Settings, TrendingUp } from "lucide-react"
+import { signOut } from "next-auth/react"
 // import { AppSidebar } from "@/components/app-sidebar"
 const items = [
     { title: "Dashboard", icon: LayoutDashboard, href: "/dashboard/student" },
@@ -17,6 +20,8 @@ const items = [
 //   href: string;
 // };
 export default function Layout({ children }: { children: React.ReactNode }) {
+
+
     return (
         <SidebarProvider>
             <AppSidebar items={items} />
@@ -29,15 +34,20 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                             orientation="vertical"
                             className="mx-2 data-[orientation=vertical]:h-4"
                         />
-                        <h1 className="text-base font-medium">Documents</h1>
+                        <h2 className="text-base font-medium">Dashboard</h2>
+                <Button  variant="ghost" size="icon" className="ml-auto mr-4 hidden md:inline-flex" >
+                    Logout
+                </Button>
                     </div>
                 </header>
                 {/* <SidebarTrigger /> */}
                 <div className="flex flex-1 flex-col">
                     <div className="@container/main flex flex-1 flex-col gap-2">
-                        <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+                        <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6 lg:px-6 px-4">
                             {/* <SectionCards /> */}
                             {children}
+                            {/* {console.log("Session in Layout:", session)} */}
+                            
                             <div className="px-4 lg:px-6">
                                 {/* <ChartAreaInteractive /> */}
                             </div>

@@ -1,17 +1,19 @@
 'use client'
 
-import { z } from 'zod'
+import { set, z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
-import { signIn } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import Link from 'next/link'
+import { Loader2Icon } from 'lucide-react'
+import { useState } from 'react'
 
 const loginSchema = z.object({
     email: z.string().email("Invalid email"),
@@ -25,15 +27,18 @@ export default function LoginForm({
     ...props
 }: React.ComponentPropsWithoutRef<"div">) {
     const router = useRouter()
+     
     const {
         register,
         handleSubmit,
-        formState: { errors }
+        formState: { errors}
     } = useForm<LoginFormData>({
         resolver: zodResolver(loginSchema)
     })
-
+    const session = useSession()
+    const [isLoading, setIsLoading] = useState(false)
     const onSubmit = async (data: LoginFormData) => {
+        setIsLoading(true)
         const res = await signIn("credentials", {
             redirect: false,
             email: data.email,
@@ -42,20 +47,40 @@ export default function LoginForm({
 
         if (res?.error) {
             toast.error("Invalid credentials")
+            setIsLoading(false)
         } else {
             // Redirect based on user role – fetch user data or JWT
             type UserRole = "ADMIN" | "INSTRUCTOR" | "STUDENT"
-            const role: UserRole = "STUDENT" // Replace with actual user role
-            switch (role) {
-                case "ADMIN":
-                    router.push("/dashboard/admin")
-                    break
-                case "INSTRUCTOR":
-                    router.push("/dashboard/instructor")
-                    break
-                default:
-                    router.push("/dashboard/student")
+            const roles: UserRole[] = ["ADMIN", "INSTRUCTOR", "STUDENT"]
+            console.log("User role:", roles)
+            console.log("User role:", res?.ok)
+            if (res?.ok) {
+                toast.success("Login successful")
+                const getRandomRole = (): UserRole => {
+                    return (session.data?.user?.role as UserRole) ?? "STUDENT"
+                }
+
+                const role: UserRole = getRandomRole()// Replace with actual user role
+                setIsLoading(false)
+                switch (role) {
+                    case "STUDENT":
+                        router.push("/dashboard/student")
+                        break
+                    case "ADMIN":
+                        router.push("/dashboard/admin")
+                        break
+                    case "INSTRUCTOR":
+                        router.push("/dashboard/instructor")
+                        break
+                    default:
+                        router.push("/dashboard/student")
+                }
+            } else {
+                toast.error("Login failed")
+                setIsLoading(false)
             }
+
+
         }
     }
 
@@ -96,8 +121,8 @@ export default function LoginForm({
                                 <Input id="password" type="password"  {...register("password")} />
                                 {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
                             </div>
-                            <Button type="submit" className="w-full">
-                                Login
+                            <Button type="submit" className="w-full" disabled={isLoading}>
+                                {isLoading ? <Loader2Icon/> : "Login"}
                             </Button>
                             {/* <Button variant="outline" className="w-full">
                                 Login with Google
