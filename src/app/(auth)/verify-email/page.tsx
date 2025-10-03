@@ -9,7 +9,6 @@ const VerifyEmailpage = () => {
         <Suspense fallback={<p>Loading...</p>}>
             <VerifyEmail />
         </Suspense>
-
     );
 };
 
