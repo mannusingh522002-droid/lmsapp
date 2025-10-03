@@ -20,9 +20,11 @@ model User {
     name              String
     email             String        @unique
     password          String
+    imageUrl          String?
     role              Role          @default(STUDENT)
     courses           Course[]      @relation("InstructorCourses")
     emailVerified     Boolean       @default(false)
+    isApproved      Boolean       @default(false)
     verificationToken String?
     enrollments       Enrollment[]
     submissions       Submission[]

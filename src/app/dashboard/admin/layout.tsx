@@ -11,6 +11,40 @@ const items = [
     { title: "Reports", icon: BarChart, href: "/dashboard/admin/reports" },
     { title: "Settings", icon: Settings, href: "/dashboard/admin/settings" }
 ]
+//   const session = await getServerSession(authOptions);
+//   const role = session?.user?.role || "STUDENT";
+
+//   let items = [];
+
+//   if (role === "STUDENT") {
+//     items = [
+//       { title: "Dashboard", icon: LayoutDashboard, href: "/dashboard/student" },
+//       { title: "My Courses", icon: BookOpen, href: "/dashboard/student/courses" },
+//       { title: "Assignments", icon: FileText, href: "/dashboard/student/assignments" },
+//       { title: "Quizzes", icon: HelpCircle, href: "/dashboard/student/quizzes" },
+//       { title: "Progress", icon: TrendingUp, href: "/dashboard/student/progress" },
+//       { title: "Settings", icon: Settings, href: "/dashboard/student/settings" }
+//     ];
+//   } else if (role === "INSTRUCTOR") {
+//     items = [
+//       { title: "Dashboard", icon: LayoutDashboard, href: "/dashboard/instructor" },
+//       { title: "My Courses", icon: BookOpen, href: "/dashboard/instructor/courses" },
+//       { title: "Create Course", icon: PlusSquare, href: "/dashboard/instructor/create" },
+//       { title: "Assignments", icon: FileText, href: "/dashboard/instructor/assignments" },
+//       { title: "Quizzes", icon: HelpCircle, href: "/dashboard/instructor/quizzes" },
+//       { title: "Revenue", icon: CreditCard, href: "/dashboard/instructor/revenue" },
+//       { title: "Settings", icon: Settings, href: "/dashboard/instructor/settings" }
+//     ];
+//   } else if (role === "ADMIN") {
+//     items = [
+//       { title: "Dashboard", icon: LayoutDashboard, href: "/dashboard/admin" },
+//       { title: "Users", icon: Users, href: "/dashboard/admin/users" },
+//       { title: "Courses", icon: BookOpen, href: "/dashboard/admin/courses" },
+//       { title: "Revenue", icon: CreditCard, href: "/dashboard/admin/revenue" },
+//       { title: "Reports", icon: BarChart, href: "/dashboard/admin/reports" },
+//       { title: "Settings", icon: Settings, href: "/dashboard/admin/settings" }
+//     ];
+//   }
 // type SidebarItem = {
 //   title: string;
 //   icon: string;

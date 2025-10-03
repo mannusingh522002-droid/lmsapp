@@ -9,6 +9,8 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import Link from 'next/link'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
 
 const registerSchema = z.object({
     fullName: z.string().min(1, "Full name is required"),
@@ -37,9 +39,28 @@ export default function RegisterForm({
             role: "STUDENT"
         }
     })
+   const  router = useRouter()
 
-    const onSubmit = (data: RegisterFormData) => {
+    const onSubmit = async (data: RegisterFormData) => {
         console.log(data)
+        try {
+            const res = await axios.post("/api/register", data)
+            if (res.status === 201) {
+                // Registration successful
+                console.log("Registration successful", res.data)
+                setTimeout(() => {
+                    router.push(res.data.data)
+                }, 3000);
+
+                // Redirect to login or dashboard
+            } else {
+                // Handle error
+                console.error("Registration failed", res.data)
+            }
+        } catch (error) {
+            console.error("Error during registration", error)
+        }
+
         // You would call an API endpoint to register here
     }
 
@@ -100,7 +121,7 @@ export default function RegisterForm({
                                 <div className="flex items-center">
                                     <Label htmlFor="role">Role (optional)</Label>
                                 </div>
-                                <Select  onValueChange={(val) => setValue("role", val as RegisterFormData["role"])} defaultValue="STUDENT">
+                                <Select onValueChange={(val) => setValue("role", val as RegisterFormData["role"])} defaultValue="STUDENT">
                                     <SelectTrigger className='w-full'>
                                         <SelectValue placeholder="Select role" />
                                     </SelectTrigger>
